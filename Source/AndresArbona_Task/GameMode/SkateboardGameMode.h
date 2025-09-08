@@ -14,4 +14,6 @@ class ANDRESARBONA_TASK_API ASkateboardGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+
+	ASkateboardGameMode();
 };
