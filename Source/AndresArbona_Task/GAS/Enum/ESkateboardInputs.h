@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Engine/UserDefinedEnum.h"
-#include "ESkateboardInputs.generated.h"
 
 UENUM(blueprintType)
 enum class EStakeboardInputID : uint8
@@ -15,9 +14,3 @@ enum class EStakeboardInputID : uint8
 	Jump UMETA(DisplayName = "Jump")
 };
 
-UCLASS()
-class ANDRESARBONA_TASK_API UESkateboardInputs : public UUserDefinedEnum
-{
-	GENERATED_BODY()
-	
-};
