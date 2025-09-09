@@ -6,7 +6,7 @@
 #include "Engine/UserDefinedEnum.h"
 
 UENUM(blueprintType)
-enum class EStakeboardInputID : uint8
+enum class ESkateboardInputs : uint8
 {
 	None UMETA(DisplayName = "None"),
 	Push UMETA(DisplayName = "Push"),

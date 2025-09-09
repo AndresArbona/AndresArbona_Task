@@ -3,3 +3,6 @@
 
 #include "AndresArbona_Task/GAS/Abilities/GA_SkateboardBase.h"
 
+UGA_SkateboardBase::UGA_SkateboardBase()
+{
+}

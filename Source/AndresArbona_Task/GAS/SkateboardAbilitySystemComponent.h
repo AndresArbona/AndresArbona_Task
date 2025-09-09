@@ -11,7 +11,7 @@ class ANDRESARBONA_TASK_API USkateboardAbilitySystemComponent : public UAbilityS
 {
 	GENERATED_BODY()
 	
-	// Helper to try activate by handle safely
+public:
 	bool TryActivateAbilityByHandle(const FGameplayAbilitySpecHandle Handle)
 	{
 		if (!Handle.IsValid()) return false;
