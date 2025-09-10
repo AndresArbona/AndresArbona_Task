@@ -54,7 +54,7 @@ void AObstacle::OnGateOutOverlap(UPrimitiveComponent* OverlappedComp, AActor* Ot
 				EventData.Instigator = this; 
 				EventData.Target = OtherActor;
 
-				UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(OtherActor, SkateTags::Event_ObstableCleared(), EventData);
+				UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(OtherActor, SkateTags::Event_ObstacleCleared(), EventData);
 			}
 		}
 	}

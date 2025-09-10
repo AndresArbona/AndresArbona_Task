@@ -13,7 +13,7 @@ UGA_AwardScore::UGA_AwardScore()
 	NetExecutionPolicy = EGameplayAbilityNetExecutionPolicy::ServerOnly; // el server decide el score
 
 	FAbilityTriggerData Trigger;
-	Trigger.TriggerTag = SkateTags::Event_ObstableCleared();
+	Trigger.TriggerTag = SkateTags::Event_ObstacleCleared();
 	Trigger.TriggerSource = EGameplayAbilityTriggerSource::GameplayEvent;
 	AbilityTriggers.Add(Trigger);
 }

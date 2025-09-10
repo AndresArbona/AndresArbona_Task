@@ -75,7 +75,7 @@ void AMainPlayerController::SetupInputComponent()
 	}
 }
 
-APlayerCharacter* AMainPlayerController::GetSkatePawn() const
+APlayerCharacter* AMainPlayerController::GetSkatePawn()
 {
 	return Cast<APlayerCharacter>(GetPawn());
 }
@@ -83,14 +83,14 @@ APlayerCharacter* AMainPlayerController::GetSkatePawn() const
 
 void AMainPlayerController::OnMove(const FInputActionValue& Value) 
 {
-	const FVector2D InputAxis2D = Value.Get<FVector2D>();
-	if (APawn* PlayerRef = GetPawn())
+	
+	if (APlayerCharacter* PlayerRef = GetSkatePawn())
 	{
-		const FRotator YawRot(0.f, GetControlRotation().Yaw, 0.f);
-		const FVector Fwd = FRotationMatrix(YawRot).GetUnitAxis(EAxis::X);
-		const FVector Right = FRotationMatrix(YawRot).GetUnitAxis(EAxis::Y);
-		PlayerRef->AddMovementInput(Fwd, FMath::Max(0.f, InputAxis2D.Y));
-		PlayerRef->AddMovementInput(Right, InputAxis2D.X);
+		const FVector2D InputAxis2D = Value.Get<FVector2D>();
+
+		PlayerRef->SetThrottle(FMath::Clamp(InputAxis2D.Y, 0.f, 1.f));   // W solo acelera (sin reversa)
+		PlayerRef->SetSteer(FMath::Clamp(InputAxis2D.X, -1.f, 1.f));     // A/D = timón
+
 	}
 }
 void AMainPlayerController::OnLook(const FInputActionValue& Value)

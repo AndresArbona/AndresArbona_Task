@@ -25,12 +25,14 @@ public:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
-	void InitializeAttributes();
-	void GiveDefaultAbilities();
+	void SetThrottle(float In) { ThrottleInput = FMath::Clamp(In, 0.f, 1.f); }
+	void SetSteer(float In) { SteerInput = FMath::Clamp(In, -1.f, 1.f); }
 
-	TObjectPtr<class USkateboardAbilitySystemComponent> GetSkateASC() const { return ASC; }
-	TObjectPtr<class UAttibuteSet_Movement> GetMoveSet() const { return MovementSet; }
-	TObjectPtr<class UAttributeSet_Score> GetScoreSet() const { return ScoreSet; }
+	bool IsGrounded() const;
+	float GetSpeed2D() const;
+
+	TObjectPtr<class USkateboardAbilitySystemComponent> GetSkateASC() { return ASC; }
+	TObjectPtr<const class UAttibuteSet_Movement> GetMoveSet() const { return MovementSet; }
 
 	// Ability handles (for direct activation/cancel from Controller)
 	FGameplayAbilitySpecHandle PushHandle;
@@ -42,8 +44,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Skate|GAS") TSubclassOf<UGameplayAbility> GA_BrakeClass;
 	UPROPERTY(EditDefaultsOnly, Category = "Skate|GAS") TSubclassOf<UGameplayAbility> GA_JumpClass;
 
-	bool IsGrounded() const;
-	float GetSpeed2D() const;
+protected:
+	void InitializeAttributes();
+	void GiveDefaultAbilities();
+
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Config|Components")
@@ -58,7 +62,8 @@ private:
 	UPROPERTY() 
 	TObjectPtr <class USkateboardAbilitySystemComponent> ASC;
 	UPROPERTY() 
-	TObjectPtr <class UAttibuteSet_Movement> MovementSet;
-	UPROPERTY() 
-	TObjectPtr <class UAttributeSet_Score> ScoreSet;
+	TObjectPtr <const class UAttibuteSet_Movement> MovementSet;
+
+	float ThrottleInput = 0.f;
+	float SteerInput = 0.f;
 };

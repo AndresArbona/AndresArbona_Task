@@ -13,7 +13,7 @@ namespace SkateTags
 
 	inline FGameplayTag Cooldown_Push() { return FGameplayTag::RequestGameplayTag(FName("Cooldown.Push")); }
 
-	inline FGameplayTag Event_ObstableCleared() { return FGameplayTag::RequestGameplayTag(FName("Event.ObstacleCleared")); }
+	inline FGameplayTag Event_ObstacleCleared() { return FGameplayTag::RequestGameplayTag(FName("Event.ObstacleCleared")); }
 	inline FGameplayTag Even_JumpCommited() { return FGameplayTag::RequestGameplayTag(FName("Cooldown.JumpCommited")); }
 	inline FGameplayTag Event_Landed() { return FGameplayTag::RequestGameplayTag(FName("Cooldown.Landed")); }
 

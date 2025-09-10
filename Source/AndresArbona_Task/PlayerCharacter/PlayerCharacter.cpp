@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "AndresArbona_Task/PlayerCharacter/PlayerCharacter.h"
@@ -20,8 +20,6 @@ APlayerCharacter::APlayerCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	ASC = CreateDefaultSubobject<USkateboardAbilitySystemComponent>(TEXT("ASC"));
-	MovementSet = CreateDefaultSubobject<UAttibuteSet_Movement>(TEXT("MovementSet"));
-	ScoreSet = CreateDefaultSubobject<UAttributeSet_Score>(TEXT("ScoreSet"));
 
 	SkateMovementComponent = CreateDefaultSubobject<USkateMovementComponent>(TEXT("SkateMovementComponent"));
 
@@ -39,7 +37,7 @@ APlayerCharacter::APlayerCharacter()
 	SkateStaticMesh->SetupAttachment(GetMesh());
 
 	bUseControllerRotationYaw = false;
-	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->bOrientRotationToMovement = false;
 }
 
 UAbilitySystemComponent* APlayerCharacter::GetAbilitySystemComponent() const { return ASC; }
@@ -51,12 +49,48 @@ void APlayerCharacter::BeginPlay()
 	
 	InitializeAttributes();
 	GiveDefaultAbilities();
+
+	if (ASC)
+	{
+#if 1
+		MovementSet = ASC->GetSet<UAttibuteSet_Movement>();
+#else
+		MovementSet = Cast<UAttibuteSet_Movement>(ASC->GetAttributeSet(UAttibuteSet_Movement::StaticClass()));
+#endif
+	}
 }
 
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	const float Speed = GetSpeed2D();
+
+	float TurnLow = 90.f;
+	float TurnHigh = 45.f;
+	float SpeedHighAt = 1200.f;
+
+	if (MovementSet)
+	{
+		TurnLow = MovementSet->GetTurnRateLow();
+		TurnHigh = MovementSet->GetTurnRateHigh();
+		SpeedHighAt = MovementSet->GetSpeedHighAt();
+	}
+
+	const float Alpha = FMath::Clamp(SpeedHighAt > 0.f ? (Speed / SpeedHighAt) : 0.f, 0.f, 1.f);
+	const float TurnRate = FMath::Lerp(TurnLow, TurnHigh, Alpha); 
+	const float SteerScale = FMath::GetMappedRangeValueClamped(FVector2D(0.f, 200.f), FVector2D(0.25f, 1.f), Speed);
+	const float YawDelta = SteerInput * TurnRate * SteerScale * DeltaTime;
+
+	if (FMath::Abs(YawDelta) > KINDA_SMALL_NUMBER)
+	{
+		AddActorWorldRotation(FRotator(0.f, YawDelta, 0.f));
+	}
+
+	if (ThrottleInput > 0.f)
+	{
+		AddMovementInput(GetActorForwardVector(), ThrottleInput);
+	}
 }
 
 bool APlayerCharacter::IsGrounded() const
@@ -73,9 +107,12 @@ void APlayerCharacter::InitializeAttributes()
 {
 	if (ASC && GE_StartupAttributes)
 	{
-		FGameplayEffectContextHandle Ctx = ASC->MakeEffectContext();
-		FGameplayEffectSpecHandle Spec = ASC->MakeOutgoingSpec(GE_StartupAttributes, 1.f, Ctx);
-		if (Spec.IsValid()) { ASC->ApplyGameplayEffectSpecToSelf(*Spec.Data.Get()); }
+		FGameplayEffectContextHandle ContextHandle = ASC->MakeEffectContext();
+		FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(GE_StartupAttributes, 1.f, ContextHandle);
+		if (SpecHandle.IsValid()) 
+		{ 
+			ASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get()); 
+		}
 	}
 }
 

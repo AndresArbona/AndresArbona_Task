@@ -41,5 +41,5 @@ private:
 	void OnBrakeCompleted(const struct FInputActionValue& Value);
 	void OnJumpStarted(const struct FInputActionValue& Value);
 
-	APlayerCharacter* GetSkatePawn() const;
+	APlayerCharacter* GetSkatePawn();
 };

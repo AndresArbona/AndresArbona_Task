@@ -23,31 +23,31 @@ public:
 	UAttibuteSet_Movement();
 
 	//Speed
-	UPROPERTY(EditAnywhere, blueprintReadOnly, Category = "Skateboard | Move")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Skateboard | Move")
 	FGameplayAttributeData MaxSpeed; SKATE_ATTR_ACCESSORS(UAttibuteSet_Movement, MaxSpeed);
-	UPROPERTY(EditAnywhere, blueprintReadOnly, Category = "Skateboard | Move")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skateboard | Move")
 	FGameplayAttributeData Acceleration; SKATE_ATTR_ACCESSORS(UAttibuteSet_Movement, Acceleration)
 
 	//Physics
-	UPROPERTY(EditAnywhere, blueprintReadOnly, Category = "Skateboard | Move")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skateboard | Move")
 	FGameplayAttributeData GroundFriction; SKATE_ATTR_ACCESSORS(UAttibuteSet_Movement, GroundFriction)
-	UPROPERTY(EditAnywhere, blueprintReadOnly, Category = "Skateboard | Move")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skateboard | Move")
 	FGameplayAttributeData BrakingDeceleration; SKATE_ATTR_ACCESSORS(UAttibuteSet_Movement, BrakingDeceleration)
-	UPROPERTY(EditAnywhere, blueprintReadOnly, Category = "Skateboard | Move")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skateboard | Move")
 	FGameplayAttributeData AirControl; SKATE_ATTR_ACCESSORS(UAttibuteSet_Movement, AirControl)
 
 	//Turning
-	UPROPERTY(EditAnywhere, blueprintReadOnly, Category = "Skateboard | Move")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skateboard | Move")
 	FGameplayAttributeData TurnRateLow; SKATE_ATTR_ACCESSORS(UAttibuteSet_Movement, TurnRateLow)
-	UPROPERTY(EditAnywhere, blueprintReadOnly, Category = "Skateboard | Move")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skateboard | Move")
 	FGameplayAttributeData TurnRateHigh; SKATE_ATTR_ACCESSORS(UAttibuteSet_Movement, TurnRateHigh)
-	UPROPERTY(EditAnywhere, blueprintReadOnly, Category = "Skateboard | Move")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skateboard | Move")
 	FGameplayAttributeData SpeedHighAt; SKATE_ATTR_ACCESSORS(UAttibuteSet_Movement, SpeedHighAt)
 
 	//Jump
-	UPROPERTY(EditAnywhere, blueprintReadOnly, Category = "Skateboard | Move")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skateboard | Move")
 	FGameplayAttributeData JumpImpulse; SKATE_ATTR_ACCESSORS(UAttibuteSet_Movement, JumpImpulse)
-	UPROPERTY(EditAnywhere, blueprintReadOnly, Category = "Skateboard | Move")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skateboard | Move")
 	FGameplayAttributeData MinJumpSpeed; SKATE_ATTR_ACCESSORS(UAttibuteSet_Movement, MinJumpSpeed)
 
 };
