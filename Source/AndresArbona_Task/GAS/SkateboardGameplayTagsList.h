@@ -7,9 +7,9 @@
 namespace SkateTags
 {
 	inline FGameplayTag State_Grounded() { return FGameplayTag::RequestGameplayTag(FName("State.Movement.Grounded")); }
-	inline FGameplayTag State_Grounded() { return FGameplayTag::RequestGameplayTag(FName("State.Movement.Airbone")); }
-	inline FGameplayTag State_Grounded() { return FGameplayTag::RequestGameplayTag(FName("State.Movement.Pushing")); }
-	inline FGameplayTag State_Grounded() { return FGameplayTag::RequestGameplayTag(FName("State.Movement.Braking")); }
+	inline FGameplayTag State_Airbone() { return FGameplayTag::RequestGameplayTag(FName("State.Movement.Airbone")); }
+	inline FGameplayTag State_Pushing() { return FGameplayTag::RequestGameplayTag(FName("State.Movement.Pushing")); }
+	inline FGameplayTag State_Braking() { return FGameplayTag::RequestGameplayTag(FName("State.Movement.Braking")); }
 
 	inline FGameplayTag Cooldown_Push() { return FGameplayTag::RequestGameplayTag(FName("Cooldown.Push")); }
 
@@ -22,4 +22,8 @@ namespace SkateTags
 	inline FGameplayTag Cue_Jump() { return FGameplayTag::RequestGameplayTag(FName("GameplayCue.Jump")); }
 	inline FGameplayTag Cue_Land() { return FGameplayTag::RequestGameplayTag(FName("GameplayCue.Land")); }
 	inline FGameplayTag Cue_Score() { return FGameplayTag::RequestGameplayTag(FName("GameplayCue.Score")); }
+
+	inline FGameplayTag Data_ScoreDelta() {
+		return FGameplayTag::RequestGameplayTag(FName("Data.ScoreDelta"));
+	}
 };

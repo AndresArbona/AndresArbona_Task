@@ -14,4 +14,24 @@ class ANDRESARBONA_TASK_API UGA_SkateboardBase : public UGameplayAbility
 
 public:
 	UGA_SkateboardBase();
+
+	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, 
+		const FGameplayAbilityActorInfo* ActorInfo, 
+		const FGameplayAbilityActivationInfo ActivationInfo, 
+		const FGameplayEventData* TriggerEventData) override;
+		
+	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, 
+		const FGameplayAbilityActorInfo* ActorInfo, 
+		const FGameplayAbilityActivationInfo ActivationInfo,
+		bool bReplicateEndAbility, 
+		bool bWasCancelled) override;
+
+protected:
+	TObjectPtr<class APlayerCharacter> GetSkater(const FGameplayAbilityActorInfo* ActorInfo) const;
+	TObjectPtr<class UCharacterMovementComponent> GetMovementComponent(const FGameplayAbilityActorInfo* ActorInfo) const;
+	TObjectPtr<class UAttibuteSet_Movement> GetMovementSet(const FGameplayAbilityActorInfo* ActorInfo) const;
+
+
+	bool IsGrounded(const FGameplayAbilityActorInfo* ActorInfo) const;
+	float GetSpeed2D(const FGameplayAbilityActorInfo* ActorInfo) const;
 };
