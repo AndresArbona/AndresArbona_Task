@@ -29,7 +29,7 @@ public:
 protected:
 	TObjectPtr<class APlayerCharacter> GetSkater(const FGameplayAbilityActorInfo* ActorInfo) const;
 	TObjectPtr<class UCharacterMovementComponent> GetMovementComponent(const FGameplayAbilityActorInfo* ActorInfo) const;
-	TObjectPtr<class UAttibuteSet_Movement> GetMovementSet(const FGameplayAbilityActorInfo* ActorInfo) const;
+	TObjectPtr<const class UAttibuteSet_Movement> GetMovementSet(const FGameplayAbilityActorInfo* ActorInfo) const;
 
 
 	bool IsGrounded(const FGameplayAbilityActorInfo* ActorInfo) const;

@@ -12,9 +12,6 @@ UCLASS()
 class ANDRESARBONA_TASK_API AMainPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
-public:
-	AMainPlayerController();
 
 private:
 	void SetupInputComponent() override;
@@ -34,6 +31,7 @@ private:
 
 	// Handlers
 	void OnMove(const struct FInputActionValue& Value);
+	void OnMoveCompleted(const struct FInputActionValue& Value);
 	void OnLook(const struct FInputActionValue& Value);
 	void OnPushStarted(const struct FInputActionValue& Value);
 	void OnPushCompleted(const struct FInputActionValue& Value);

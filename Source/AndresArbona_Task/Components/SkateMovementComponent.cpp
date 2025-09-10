@@ -56,13 +56,11 @@ void USkateMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	MovementComponent->GroundFriction = Fric;
 	MovementComponent->BrakingDecelerationWalking = Decel;
 	MovementComponent->AirControl = AirCtl;
-	MovementComponent->bOrientRotationToMovement = true;
 
 	// Turn rate curve vs current speed
 	const float Speed = GetSpeed2D();
 	const float Alpha = FMath::Clamp(SpeedHi > 0.f ? (Speed / SpeedHi) : 0.f, 0.f, 1.f);
 	const float TurnRate = FMath::Lerp(TurnLow, TurnHigh, Alpha);
-	MovementComponent->RotationRate = FRotator(0.f, TurnRate, 0.f);
 }
 
 float USkateMovementComponent::GetSpeed2D() const

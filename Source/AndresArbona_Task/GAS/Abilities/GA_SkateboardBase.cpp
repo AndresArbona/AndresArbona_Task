@@ -29,15 +29,15 @@ TObjectPtr<class APlayerCharacter> UGA_SkateboardBase::GetSkater(const FGameplay
 
 TObjectPtr<class UCharacterMovementComponent> UGA_SkateboardBase::GetMovementComponent(const FGameplayAbilityActorInfo* ActorInfo) const
 {
-	if (const APlayerCharacter* PlayerRef = GetSkater(ActorInfo))
+	if (APlayerCharacter* PlayerRef = GetSkater(ActorInfo))
 		return PlayerRef->GetCharacterMovement();
 	
 	return nullptr;
 }
 
-TObjectPtr<class UAttibuteSet_Movement> UGA_SkateboardBase::GetMovementSet(const FGameplayAbilityActorInfo* ActorInfo) const
+TObjectPtr<const class UAttibuteSet_Movement> UGA_SkateboardBase::GetMovementSet(const FGameplayAbilityActorInfo* ActorInfo) const
 {
-	if (const APlayerCharacter* PlayerRef = GetSkater(ActorInfo))
+	if (APlayerCharacter* PlayerRef = GetSkater(ActorInfo))
 		return PlayerRef->GetMoveSet();
 	
 	return nullptr;

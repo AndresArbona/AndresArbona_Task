@@ -25,14 +25,14 @@ public:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
-	void SetThrottle(float In) { ThrottleInput = FMath::Clamp(In, 0.f, 1.f); }
-	void SetSteer(float In) { SteerInput = FMath::Clamp(In, -1.f, 1.f); }
+	void ProcessMoveInput(const FVector2D& Axis, float DeltaSeconds);
+	void ClearMoveInput();
 
 	bool IsGrounded() const;
 	float GetSpeed2D() const;
 
 	TObjectPtr<class USkateboardAbilitySystemComponent> GetSkateASC() { return ASC; }
-	TObjectPtr<const class UAttibuteSet_Movement> GetMoveSet() const { return MovementSet; }
+	TObjectPtr<const class UAttibuteSet_Movement> GetMoveSet() { return MovementSet; }
 
 	// Ability handles (for direct activation/cancel from Controller)
 	FGameplayAbilitySpecHandle PushHandle;
@@ -63,7 +63,4 @@ private:
 	TObjectPtr <class USkateboardAbilitySystemComponent> ASC;
 	UPROPERTY() 
 	TObjectPtr <const class UAttibuteSet_Movement> MovementSet;
-
-	float ThrottleInput = 0.f;
-	float SteerInput = 0.f;
 };

@@ -17,7 +17,7 @@ UGA_JumpAbility::UGA_JumpAbility()
 void UGA_JumpAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
 	UAbilitySystemComponent* ASC = ActorInfo->AbilitySystemComponent.Get();
-	UAttibuteSet_Movement* MovementSet = GetMovementSet(ActorInfo);
+ 	const UAttibuteSet_Movement* MovementSet = GetMovementSet(ActorInfo);
 	if (!CommitAbility(Handle, ActorInfo, ActivationInfo) || !ASC || !MovementSet) { EndAbility(Handle, ActorInfo, ActivationInfo, true, true); return; }
 
 	const float Speed = GetSpeed2D(ActorInfo);

@@ -10,11 +10,6 @@
 #include "EnhancedInputComponent.h"
 #include "AndresArbona_Task/GAS/SkateboardAbilitySystemComponent.h"
 
-AMainPlayerController::AMainPlayerController() 
-{
-	
-}
-
 void AMainPlayerController::SetupInputComponent()
 {
 
@@ -38,14 +33,19 @@ void AMainPlayerController::SetupInputComponent()
 	if (MappingContext = NewObject<UInputMappingContext>(); MappingContext)
 	{
 		auto& Move_Foward = MappingContext->MapKey(MoveAction, EKeys::W);
-		UInputModifierSwizzleAxis* Swizzle_Modifier_Front = NewObject<UInputModifierSwizzleAxis>(); Swizzle_Modifier_Front->Order = EInputAxisSwizzle::YXZ; Move_Foward.Modifiers.Add(Swizzle_Modifier_Front);
+		UInputModifierSwizzleAxis* Swizzle_Modifier_Front = NewObject<UInputModifierSwizzleAxis>(); 
+		Swizzle_Modifier_Front->Order = EInputAxisSwizzle::YXZ; Move_Foward.Modifiers.Add(Swizzle_Modifier_Front);
 
 		auto& Move_Right = MappingContext->MapKey(MoveAction, EKeys::D);
-		UInputModifierSwizzleAxis* Swizzle_Modifier_Right = NewObject<UInputModifierSwizzleAxis>(); Swizzle_Modifier_Right->Order = EInputAxisSwizzle::XZY; Move_Right.Modifiers.Add(Swizzle_Modifier_Right);
+		UInputModifierSwizzleAxis* Swizzle_Modifier_Right = NewObject<UInputModifierSwizzleAxis>(); 
+		Swizzle_Modifier_Right->Order = EInputAxisSwizzle::XZY; Move_Right.Modifiers.Add(Swizzle_Modifier_Right);
 
 		auto& Move_Left = MappingContext->MapKey(MoveAction, EKeys::A);
-		UInputModifierSwizzleAxis* Swizzle_Modifier_Left = NewObject<UInputModifierSwizzleAxis>(); Swizzle_Modifier_Left->Order = EInputAxisSwizzle::XZY; Move_Left.Modifiers.Add(Swizzle_Modifier_Left);
-		UInputModifierNegate* Negate_Modifier = NewObject<UInputModifierNegate>(); Negate_Modifier->bX = true; Move_Left.Modifiers.Add(Negate_Modifier);
+		UInputModifierSwizzleAxis* Swizzle_Modifier_Left = NewObject<UInputModifierSwizzleAxis>(); 
+		Swizzle_Modifier_Left->Order = EInputAxisSwizzle::XZY; Move_Left.Modifiers.Add(Swizzle_Modifier_Left);
+
+		UInputModifierNegate* Negate_Modifier = NewObject<UInputModifierNegate>(); 
+		Negate_Modifier->bX = true; Move_Left.Modifiers.Add(Negate_Modifier);
 
 		MappingContext->MapKey(LookAction, EKeys::Mouse2D);
 
@@ -65,6 +65,8 @@ void AMainPlayerController::SetupInputComponent()
 	if (auto* const Enhanced_Input_Component = Cast<UEnhancedInputComponent>(InputComponent))
 	{
 		Enhanced_Input_Component->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMainPlayerController::OnMove);
+		Enhanced_Input_Component->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMainPlayerController::OnMove);
+
 		Enhanced_Input_Component->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMainPlayerController::OnLook);
 
 		Enhanced_Input_Component->BindAction(JumpAction, ETriggerEvent::Started, this, &AMainPlayerController::OnJumpStarted);
@@ -80,7 +82,6 @@ APlayerCharacter* AMainPlayerController::GetSkatePawn()
 	return Cast<APlayerCharacter>(GetPawn());
 }
 
-
 void AMainPlayerController::OnMove(const FInputActionValue& Value) 
 {
 	
@@ -88,11 +89,22 @@ void AMainPlayerController::OnMove(const FInputActionValue& Value)
 	{
 		const FVector2D InputAxis2D = Value.Get<FVector2D>();
 
-		PlayerRef->SetThrottle(FMath::Clamp(InputAxis2D.Y, 0.f, 1.f));   // W solo acelera (sin reversa)
-		PlayerRef->SetSteer(FMath::Clamp(InputAxis2D.X, -1.f, 1.f));     // A/D = timón
-
+		const float DT = GetWorld() ? GetWorld()->GetDeltaSeconds() : (1.f / 60.f);
+		PlayerRef->ProcessMoveInput(InputAxis2D, DT);
 	}
 }
+
+void AMainPlayerController::OnMoveCompleted(const FInputActionValue& Value)
+{
+
+	if (APlayerCharacter* PlayerRef = GetSkatePawn())
+	{
+		PlayerRef->ClearMoveInput(); 
+	}
+
+}
+
+
 void AMainPlayerController::OnLook(const FInputActionValue& Value)
 {
 	const FVector2D InputAxis2D = Value.Get<FVector2D>();

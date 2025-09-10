@@ -64,33 +64,6 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	const float Speed = GetSpeed2D();
-
-	float TurnLow = 90.f;
-	float TurnHigh = 45.f;
-	float SpeedHighAt = 1200.f;
-
-	if (MovementSet)
-	{
-		TurnLow = MovementSet->GetTurnRateLow();
-		TurnHigh = MovementSet->GetTurnRateHigh();
-		SpeedHighAt = MovementSet->GetSpeedHighAt();
-	}
-
-	const float Alpha = FMath::Clamp(SpeedHighAt > 0.f ? (Speed / SpeedHighAt) : 0.f, 0.f, 1.f);
-	const float TurnRate = FMath::Lerp(TurnLow, TurnHigh, Alpha); 
-	const float SteerScale = FMath::GetMappedRangeValueClamped(FVector2D(0.f, 200.f), FVector2D(0.25f, 1.f), Speed);
-	const float YawDelta = SteerInput * TurnRate * SteerScale * DeltaTime;
-
-	if (FMath::Abs(YawDelta) > KINDA_SMALL_NUMBER)
-	{
-		AddActorWorldRotation(FRotator(0.f, YawDelta, 0.f));
-	}
-
-	if (ThrottleInput > 0.f)
-	{
-		AddMovementInput(GetActorForwardVector(), ThrottleInput);
-	}
 }
 
 bool APlayerCharacter::IsGrounded() const
@@ -101,6 +74,44 @@ bool APlayerCharacter::IsGrounded() const
 float APlayerCharacter::GetSpeed2D() const
 {
 	return GetVelocity().Size2D();
+}
+
+void APlayerCharacter::ProcessMoveInput(const FVector2D& Axis, float DeltaSeconds)
+{
+
+	const float Throttle = FMath::Clamp(Axis.Y, 0.f, 1.f);
+	const float Steer = FMath::Clamp(Axis.X, -1.f, 1.f); 
+
+
+	const float Speed = GetSpeed2D();
+
+	float TurnLow = 90.f, TurnHigh = 45.f, SpeedHighAt = 1200.f;
+	if (MovementSet)
+	{
+		TurnLow = MovementSet->GetTurnRateLow();
+		TurnHigh = MovementSet->GetTurnRateHigh();
+		SpeedHighAt = MovementSet->GetSpeedHighAt();
+	}
+
+	const float Alpha = FMath::Clamp(SpeedHighAt > 0.f ? (Speed / SpeedHighAt) : 0.f, 0.f, 1.f);
+	const float TurnRate = FMath::Lerp(TurnLow, TurnHigh, Alpha);
+	const float SteerGain = FMath::GetMappedRangeValueClamped(FVector2D(0.f, 200.f), FVector2D(0.25f, 1.f), Speed);
+	const float YawDelta = Steer * TurnRate * SteerGain * DeltaSeconds;
+
+	if (FMath::Abs(YawDelta) > KINDA_SMALL_NUMBER)
+	{
+		AddActorWorldRotation(FRotator(0.f, YawDelta, 0.f));
+	}
+
+	if (Throttle > 0.f)
+	{
+		AddMovementInput(GetActorForwardVector(), Throttle);
+	}
+}
+
+void APlayerCharacter::ClearMoveInput()
+{
+	// no cacheamos nada
 }
 
 void APlayerCharacter::InitializeAttributes()
